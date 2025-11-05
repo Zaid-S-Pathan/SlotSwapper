@@ -1,0 +1,18 @@
+{
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell",
+      "args": ["-NoExit", "-Command", "& .\\env\\Scripts\\Activate.ps1"]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "python.languageServer": "Pylance",
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": true,
+    "strings": true
+  },
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.parameterHints.enabled": true
+}
