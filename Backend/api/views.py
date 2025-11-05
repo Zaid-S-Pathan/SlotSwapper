@@ -62,7 +62,7 @@ class SwapRequestCreateView(APIView):
     def post(self, request):
         my_slot_id = request.data.get('my_slot_id')
         their_slot_id = request.data.get('their_slot_id')
-
+        
         try:
             my_slot = Event.objects.get(id=my_slot_id, owner=request.user, status='SWAPPABLE')
             their_slot = Event.objects.get(id=their_slot_id, status='SWAPPABLE')
