@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from .views import SwappableSlotsView, SwapRequestCreateView, SwapResponseView,SwapRequestsView, RegisterView
+from .views import SwappableSlotsView, SwapRequestCreateView, SwapResponseView,SwapRequestsView, RegisterView,DeleteUserView
 
 
 urlpatterns = [
@@ -28,4 +28,5 @@ urlpatterns = [
 
     #user sign up
     path('register/', RegisterView.as_view(), name='register'),
+    path("delete-user/", DeleteUserView.as_view(), name="delete-user"),
 ]

@@ -4,8 +4,10 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Marketplace from "./pages/Marketplace";
 import Requests from "./pages/Requests";
+import AddEvent from "./pages/AddEvent"; 
 import Navbar from "./components/Navbar";
-import "./App.css"
+import "./App.css";
+
 function App() {
   const isAuthenticated = !!localStorage.getItem("access");
 
@@ -32,6 +34,10 @@ function App() {
         <Route
           path="/dashboard"
           element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/add-event"                    // ✅ NEW ROUTE
+          element={isAuthenticated ? <AddEvent /> : <Navigate to="/" />}
         />
         <Route
           path="/marketplace"

@@ -8,35 +8,51 @@
 // }
 
 // export default Requests;  
-
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Requests() {
   const [incoming, setIncoming] = useState([]);
   const [outgoing, setOutgoing] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const token = localStorage.getItem("access");
 
-  // Fetch incoming and outgoing requests
-  useEffect(() => {
-    const fetchRequests = async () => {
-      try {
-        const res = await axios.get("http://127.0.0.1:8000/api/swap-requests/", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setIncoming(res.data.incoming);
-        setOutgoing(res.data.outgoing);
-      } catch (err) {
-        console.error(err);
-        alert("Failed to load requests.");
-      }
-    };
+  // Fetch incoming and outgoing swap requests
+  const fetchRequests = async () => {
+    try {
+      setError(null);
+      const res = await axios.get("http://127.0.0.1:8000/api/swap-requests/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
+      // Defensive checks in case backend changes structure
+      const incomingData = Array.isArray(res.data.incoming)
+        ? res.data.incoming
+        : [];
+      const outgoingData = Array.isArray(res.data.outgoing)
+        ? res.data.outgoing
+        : [];
+
+      setIncoming(incomingData);
+      setOutgoing(outgoingData);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching swap requests:", err);
+      setError("Failed to load requests.");
+      setLoading(false);
+    }
+  };
+
+  // Load requests initially + poll every 10 seconds
+  useEffect(() => {
     fetchRequests();
+    const interval = setInterval(fetchRequests, 10000);
+    return () => clearInterval(interval);
   }, [token]);
 
-  // Handle swap response (accept/reject)
+  // Handle accept/reject actions
   const respondToRequest = async (id, accept) => {
     try {
       await axios.post(
@@ -44,14 +60,15 @@ function Requests() {
         { accept },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert(accept ? "Swap Accepted!" : "Swap Rejected!");
-      // Refresh after response
-      setIncoming((prev) => prev.filter((r) => r.id !== id));
+      fetchRequests(); // refresh after response
     } catch (err) {
-      console.error(err);
+      console.error("Failed to respond to request:", err);
       alert("Failed to respond to request.");
     }
   };
+
+  if (loading) return <p style={{ padding: "2rem" }}>Loading requests...</p>;
+  if (error) return <p style={{ color: "red", padding: "2rem" }}>{error}</p>;
 
   return (
     <div style={{ padding: "2rem" }}>
@@ -63,8 +80,8 @@ function Requests() {
           <thead>
             <tr>
               <th>Requester</th>
-              <th>Their Slot ID</th>
-              <th>Your Slot ID</th>
+              <th>Their Slot</th>
+              <th>Your Slot</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -98,8 +115,8 @@ function Requests() {
           <thead>
             <tr>
               <th>Recipient</th>
-              <th>Your Slot ID</th>
-              <th>Their Slot ID</th>
+              <th>Your Slot</th>
+              <th>Their Slot</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -120,3 +137,6 @@ function Requests() {
 }
 
 export default Requests;
+
+
+

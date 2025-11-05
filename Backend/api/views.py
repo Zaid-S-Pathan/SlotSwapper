@@ -2,12 +2,13 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, status,serializers
 from .models import Event,SwapRequest
 from .serializers import EventSerializer,SwapRequestSerializer
 from django.contrib.auth.models import User
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.utils.dateparse import parse_datetime
 
 #User 
 class RegisterView(APIView):
@@ -34,18 +35,55 @@ class RegisterView(APIView):
             "refresh": str(refresh),
         }, status=status.HTTP_201_CREATED)
 
-class EventListCreateView(generics.ListCreateAPIView):
-    serializer_class = EventSerializer
+class DeleteUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_queryset(self):
-        return Event.objects.filter(owner=self.request.user)
+    def delete(self, request):
+        user = request.user
+        username = user.username
+        user.delete()
+        return Response(
+            {"message": f"User '{username}' deleted successfully."},
+            status=status.HTTP_204_NO_CONTENT
+        )
 
-    def perform_create(self, serializer):
-        # Automatically set the owner to the logged-in user
-        serializer.save(owner=self.request.user)
+# class EventListCreateView(generics.ListCreateAPIView):
+#     serializer_class = EventSerializer
+#     permission_classes = [permissions.IsAuthenticated]
 
+#     def get_queryset(self):
+#         return Event.objects.filter(owner=self.request.user)
 
+#     def perform_create(self, serializer):
+#         # Automatically set the owner to the logged-in user
+#         serializer.save(owner=self.request.user)
+
+# class EventListCreateView(generics.ListCreateAPIView):
+#     serializer_class = EventSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+
+#     def get_queryset(self):
+#         return Event.objects.filter(owner=self.request.user)
+
+#     def perform_create(self, serializer):
+#         start_time = self.request.data.get("start_time")
+#         end_time = self.request.data.get("end_time")
+
+#         # ✅ Overlap check: find any of the user's events that overlap with this one
+#         overlapping = Event.objects.filter(
+#             owner=self.request.user,
+#             start_time__lt=end_time,
+#             end_time__gt=start_time
+#         ).exists()
+
+#         if overlapping:
+#             # ❌ Prevent overlapping events
+#             raise serializer.ValidationError(
+#                 {"error": "You already have an event during this time."}
+#             )
+
+#         # ✅ Save the new event if no overlap
+#         serializer.save(owner=self.request.user)
 # class EventRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
 #     serializer_class = EventSerializer
 #     permission_classes = [permissions.IsAuthenticated]
@@ -54,6 +92,48 @@ class EventListCreateView(generics.ListCreateAPIView):
 #         # Only allow operations on the logged-in user's events
 #         return Event.objects.filter(owner=self.request.user)
 
+class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = EventSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Event.objects.filter(owner=self.request.user)
+
+    def perform_update(self, serializer):
+        start_time = self.request.data.get("start_time")
+        end_time = self.request.data.get("end_time")
+
+        overlapping = Event.objects.filter(
+            owner=self.request.user,
+            start_time__lt=end_time,
+            end_time__gt=start_time
+        ).exclude(id=self.get_object().id).exists()
+
+        if overlapping:
+            raise serializer.ValidationError(
+                {"error": "This update would overlap with another event."}
+            )
+
+        serializer.save()
+
+
+# class EventRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+#     serializer_class = EventSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+
+#     def get_queryset(self):
+#         return Event.objects.filter(owner=self.request.user)
+
+#     def put(self, request, *args, **kwargs):
+#         # Disallow PUT completely
+#         return Response(
+#             {"detail": "Use PATCH to update an event."},
+#             status=status.HTTP_405_METHOD_NOT_ALLOWED
+#         )
+
+#     def patch(self, request, *args, **kwargs):
+#         # Allow partial updates
+#         return super().patch(request, *args, **kwargs)
 
 class EventRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EventSerializer
@@ -69,9 +149,74 @@ class EventRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
             status=status.HTTP_405_METHOD_NOT_ALLOWED
         )
 
+    def perform_update(self, serializer):
+        # ✅ Overlap validation on PATCH
+        start_time_str = self.request.data.get("start_time")
+        end_time_str = self.request.data.get("end_time")
+
+        # If no time provided in PATCH, skip validation
+        if not start_time_str or not end_time_str:
+            serializer.save()
+            return
+
+        # Convert to datetime objects
+        start_time = parse_datetime(start_time_str)
+        end_time = parse_datetime(end_time_str)
+
+        if not start_time or not end_time:
+            raise serializer.ValidationError({"error": "Invalid datetime format."})
+
+        if start_time >= end_time:
+            raise serializer.ValidationError({"error": "End time must be after start time."})
+
+        # Check for overlap with other events of the same user
+        overlapping = Event.objects.filter(
+            start_time__lt=end_time,
+            end_time__gt=start_time
+        ).exclude(id=self.get_object().id).exists()
+
+        if overlapping:
+            raise serializers.ValidationError(
+                {"error": "This update would overlap with another event."}
+            )
+
+        serializer.save()
+
     def patch(self, request, *args, **kwargs):
         # Allow partial updates
         return super().patch(request, *args, **kwargs)
+
+
+class EventListCreateView(generics.ListCreateAPIView):
+    serializer_class = EventSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Event.objects.filter(owner=self.request.user)
+
+    def perform_create(self, serializer):
+        start_time_str = self.request.data.get("start_time")
+        end_time_str = self.request.data.get("end_time")
+
+        start_time = parse_datetime(start_time_str)
+        end_time = parse_datetime(end_time_str)
+
+        if not start_time or not end_time:
+            raise serializers.ValidationError({"error": "Invalid datetime format."})
+
+        if start_time >= end_time:
+            raise serializers.ValidationError({"error": "End time must be after start time."})
+
+        overlapping = Event.objects.filter(
+            start_time__lt=end_time,
+            end_time__gt=start_time
+        ).exists()
+
+        if overlapping:
+            raise serializers.ValidationError({"error": "Already have an event during this time."})
+
+        serializer.save(owner=self.request.user)
+
 
 #Swapable slot view
 class SwappableSlotsView(APIView):
