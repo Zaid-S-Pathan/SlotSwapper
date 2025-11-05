@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from .views import SwappableSlotsView, SwapRequestCreateView, SwapResponseView,SwapRequestsView
+from .views import SwappableSlotsView, SwapRequestCreateView, SwapResponseView,SwapRequestsView, RegisterView
 
 
 urlpatterns = [
@@ -26,4 +26,6 @@ urlpatterns = [
     path('swap-response/<int:request_id>/', SwapResponseView.as_view(), name='swap-response'),
     path('swap-requests/', SwapRequestsView.as_view(), name='swap-requests'),
 
+    #user sign up
+    path('register/', RegisterView.as_view(), name='register'),
 ]
