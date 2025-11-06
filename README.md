@@ -2,6 +2,13 @@
 
 A web application that helps users manage and swap time slots for events. Built with React (frontend) and Django REST Framework (backend).
 
+<!-- Live demo banner: update the URL below if your production URL differs -->
+<p align="center">
+   <a href="https://slot-swapper-sandy.vercel.app" target="_blank" rel="noopener noreferrer">
+      <strong style="font-size:18px">Visit the Live Site → https://slot-swapper-sandy.vercel.app</strong>
+   </a>
+</p>
+
 ## Table of Contents
 
 1. [General Information](#1-general-information)
@@ -11,7 +18,8 @@ A web application that helps users manage and swap time slots for events. Built 
 5. [API Endpoints](#5-api-endpoints)
 6. [Project Structure](#6-project-structure)
 7. [Deployment](#7-deployment)
-8. [Contact](#8-contact)
+8. [Future Enhancements](#8-future-enhancements)
+9. [Contact](#9-contact)
 
 ## 1. General Information
 
@@ -27,7 +35,7 @@ SlotSwapper is a collaborative time-management platform that enables users to ex
 - **Accept or Decline** – The recipient receives a notification and can accept or reject the request.
 - **Automatic Update** – Upon acceptance, both users’ schedules are instantly updated with the new event times — no confusion, no overlap.
 
-![alt text](image-3.png)
+![alt text](screenshots/image-3.png)
 
 🚀 Why SlotSwapper
 
@@ -119,7 +127,7 @@ Frontend
    ```bash
    python manage.py createsuperuser
    ```
-![alt text](image-5.png)
+![alt text](screenshots/image-5.png)
 
 ### Frontend Setup
 
@@ -144,7 +152,7 @@ Frontend
    npm run dev
    ```
 
-![alt text](image-4.png)
+![alt text](screenshots/image-4.png)
 
 ## 4. Usage
 
@@ -153,26 +161,19 @@ Frontend
 2. Log in with your credentials
 3. You'll be redirected to your dashboard
 #### User registration
-![alt text](image-1.png)
+![alt text](screenshots/image-1.png)
 #### Login
-![alt text](image-2.png)
+![alt text](screenshots/image-2.png)
 
 ### Creating Events
 1. Click "Add Event" in your dashboard
 2. Fill in event details (title, time, etc.)
 3. Choose if the slot is available for swapping
 
-![alt text](image-6.png)
-![alt text](image-7.png)
-![alt text](image-8.png)
+![alt text](screenshots/image-6.png)
+![alt text](screenshots/image-7.png)
+![alt text](screenshots/image-8.png)
 
-### Requesting Swaps
-1. Browse available slots in the Marketplace
-2. Select a slot you want
-3. Choose your slot to offer in exchange
-4. Submit swap request
-
-[Screenshot: Swap request flow]
 
 ### Marketplace
 
@@ -184,8 +185,16 @@ The Marketplace is the central place to discover slots other users have marked a
 - When you find a match, click "Request Swap", pick which of your own swappable slots to offer, and send the request.
 - Requests the recipient sees will appear in their Requests view where they can Accept or Decline. Status updates (PENDING → ACCEPTED / REJECTED) are shown in both users' dashboards.
 
-[Screenshot: Marketplace and slot detail view]
+![alt text](screenshots/image@1.png)
+![alt text](screenshots/image@2.png)
+### Requesting Swaps
+1. Browse available slots in the Marketplace
+2. Select a slot you want
+3. Choose your slot to offer in exchange
+4. Submit swap request
 
+![alt text](screenshots/image@3.png)
+![alt text](screenshots/image@4.png)
 ## 5. API Endpoints
 
 ### Authentication Endpoints
@@ -210,7 +219,6 @@ The Marketplace is the central place to discover slots other users have marked a
 | POST | `/api/swap-request/` | Create swap request | `{ "my_slot_id": 1, "their_slot_id": 2 }` |
 | POST | `/api/swap-response/<id>/` | Respond to request | `{ "accept": true }` |
 
-[Screenshot: API response example]
 
 ## 6. Project Structure
 
@@ -252,13 +260,41 @@ SlotSwapper/
    - VITE_API_URL (production backend URL)
 3. Deploy and verify rewrite rules work
 
-[Screenshot: Deployed application]
+![alt text](screenshots/image-2.png)
+
+## 8. Future Enhancements
+
+Here are some ideas and planned improvements for SlotSwapper. These are optional features that would enhance usability, reliability, and collaboration:
+
+- Notifications
+   - Push / email notifications for incoming swap requests and responses.
+   - In-app notification center with read/unread state.
+
+- Calendar Integrations
+   - Two-way sync with Google Calendar, Outlook, and iCal so accepted swaps update external calendars.
+
+- Search & Filters
+   - Advanced filtering (duration, tags, location, time zone) and saved searches.
+
+- Analytics & Audit
+   - Admin dashboard with swap activity, user growth, and audit logs for swaps.
+
+- Performance & Scaling
+   - Background jobs for heavy tasks (notifications, analytics) and a scalable deployment setup (worker queues, caching).
+
+- Security & Privacy
+   - Rate limiting, stricter validation, and privacy controls for who can see swappable slots.
+
+- UX Improvements
+   - Guided onboarding, tooltips, and improved error messages to reduce friction.
+
 
 ## 8. Contact
 
 - **Email:** mohammedzaid.s.pathan@gmail.com
 - **GitHub:** [Zaid-S-Pathan](https://github.com/Zaid-S-Pathan)
-- **Project Link:** [SlotSwapper](https://github.com/Zaid-S-Pathan/SlotSwapper)
+- **Project Link:** [GitHub](https://github.com/Zaid-S-Pathan/SlotSwapper),[SlotSwapper(Live Link)](https://slot-swapper-sandy.vercel.app/)
+
 
 ---
 
