@@ -27,6 +27,8 @@ SlotSwapper is a collaborative time-management platform that enables users to ex
 - **Accept or Decline** – The recipient receives a notification and can accept or reject the request.
 - **Automatic Update** – Upon acceptance, both users’ schedules are instantly updated with the new event times — no confusion, no overlap.
 
+![alt text](image-3.png)
+
 🚀 Why SlotSwapper
 
 - Eliminates the hassle of rescheduling through back-and-forth messaging.
@@ -117,8 +119,7 @@ Frontend
    ```bash
    python manage.py createsuperuser
    ```
-
-[Screenshot: Successful backend setup/running]
+![alt text](image-5.png)
 
 ### Frontend Setup
 
@@ -143,7 +144,7 @@ Frontend
    npm run dev
    ```
 
-[Screenshot: Frontend running in development]
+![alt text](image-4.png)
 
 ## 4. Usage
 
@@ -151,15 +152,19 @@ Frontend
 1. Visit the signup page to create an account
 2. Log in with your credentials
 3. You'll be redirected to your dashboard
-
-[Screenshot: Signup/Login process]
+#### User registration
+![alt text](image-1.png)
+#### Login
+![alt text](image-2.png)
 
 ### Creating Events
 1. Click "Add Event" in your dashboard
 2. Fill in event details (title, time, etc.)
 3. Choose if the slot is available for swapping
 
-[Screenshot: Event creation form]
+![alt text](image-6.png)
+![alt text](image-7.png)
+![alt text](image-8.png)
 
 ### Requesting Swaps
 1. Browse available slots in the Marketplace
@@ -168,6 +173,18 @@ Frontend
 4. Submit swap request
 
 [Screenshot: Swap request flow]
+
+### Marketplace
+
+The Marketplace is the central place to discover slots other users have marked as swappable. It's designed to make matching and requesting swaps fast and clear.
+
+- Browse a live list of swappable slots from other users.
+- Filter by date, time range, owner, or status to quickly find suitable matches.
+- Click any slot to open a detail view with the full event title, owner, time window, and any notes.
+- When you find a match, click "Request Swap", pick which of your own swappable slots to offer, and send the request.
+- Requests the recipient sees will appear in their Requests view where they can Accept or Decline. Status updates (PENDING → ACCEPTED / REJECTED) are shown in both users' dashboards.
+
+[Screenshot: Marketplace and slot detail view]
 
 ## 5. API Endpoints
 
