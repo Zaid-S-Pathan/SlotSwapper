@@ -213,7 +213,7 @@ class EventListCreateView(generics.ListCreateAPIView):
         ).exists()
 
         if overlapping:
-            raise serializers.ValidationError({"error": "Already have an event during this time."})
+            raise serializers.ValidationError({"error": "Someone or You Already have an event during this time.Request a swap or choose another time."})
 
         serializer.save(owner=self.request.user)
 
