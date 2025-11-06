@@ -174,6 +174,8 @@ Frontend
 ![alt text](screenshots/image-7.png)
 ![alt text](screenshots/image-8.png)
 
+4. It also Throw error if there is any overlap in time and date
+![alt text](screenshots/image@6.png)
 
 ### Marketplace
 
