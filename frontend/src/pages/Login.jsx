@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import "../styles/Login.css";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -8,7 +9,7 @@ function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post("http://127.0.0.1:8000/api/token/", {
@@ -20,33 +21,55 @@ function Login() {
       navigate("/dashboard");
       window.location.reload();
     } catch (err) {
-      setError("Invalid credentials");
+      setError("Invalid username or password");
     }
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: "300px", margin: "50px auto" }}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="login-page">
+      <div className="login-card">
+        <h2 className="login-title">Welcome Back 👋</h2>
+        <p className="login-subtitle">
+          Log in to continue using <b>SlotSwapper</b>
+        </p>
+
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Username</label>
+            <input
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button type="submit" className="login-btn">
+            Login
+          </button>
+        </form>
+
+        {error && <p style={{ color: "#ffb3b3", marginTop: "10px" }}>{error}</p>}
+
+        <p className="signup-text">
+          Don’t have an account? <Link to="/signup">Sign up</Link>
+        </p>
+      </div>
     </div>
   );
 }
 
 export default Login;
+

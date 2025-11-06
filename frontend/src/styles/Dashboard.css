@@ -1,0 +1,245 @@
+/* Dashboard page styling */
+.dashboard-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a1a1a, #2d2d2d, #000000);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+  font-family: "Inter", sans-serif;
+  padding-top: 70px;
+  overflow-y: auto;
+  z-index: 1;
+  
+  /* Hide scrollbar for webkit browsers */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+/* Hide scrollbar for webkit browsers */
+.dashboard-page::-webkit-scrollbar {
+  display: none;
+}
+
+/* Animated background */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Main container */
+.dashboard-container {
+  max-width: 1200px;
+  width: 90%;
+  margin: 2rem auto;
+  padding: 3rem;
+  min-height: 80vh;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(14px);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header */
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Add event button */
+.add-event-btn {
+  background: #1a1a1a;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  align-self: center;
+}
+
+.add-event-btn:hover {
+  transform: scale(1.03);
+  background: #333333;
+}
+
+/* Loading and error states */
+.loading-text, .error-text {
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.loading-text {
+  color: #666666;
+}
+
+.error-text {
+  color: #dc3545;
+  font-weight: 500;
+}
+
+/* No events message */
+.no-events {
+  text-align: center;
+  color: #666666;
+  font-size: 1.1rem;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 2px dashed #e0e0e0;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Table styling */
+.events-table {
+  width: 100%;
+  max-width: 1200px;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+
+.events-table th {
+  background: #1a1a1a;
+  color: white;
+  padding: 15px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.events-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333333;
+}
+
+.events-table tr:hover {
+  background: #f8f9fa;
+}
+
+.events-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Action buttons */
+.actions-cell {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.toggle-btn {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.toggle-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.toggle-btn.swappable {
+  background: #17a2b8;
+  color: white;
+}
+
+.toggle-btn.busy {
+  background: #ffc107;
+  color: #1a1a1a;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+  transform: scale(1.05);
+  background: #c82333;
+}
+
+/* Status badges */
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.busy {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.swappable {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .dashboard-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .events-table {
+    font-size: 0.9rem;
+  }
+  
+  .events-table th,
+  .events-table td {
+    padding: 8px;
+  }
+  
+  .actions-cell {
+    flex-direction: column;
+    gap: 5px;
+  }
+}

@@ -1,0 +1,133 @@
+/* Page background */
+
+.login-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #1a1a1a, #2d2d2d, #000000);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+  font-family: "Inter", sans-serif;
+}
+
+/* Animated background */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Glassmorphism card */
+.login-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(14px);
+  border-radius: 16px;
+  padding: 2.5rem;
+  width: 380px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  color: #1a1a1a;
+  animation: fadeIn 0.8s ease-in-out;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header text */
+.login-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.login-subtitle {
+  font-size: 0.95rem;
+  color: #666666;
+  margin-bottom: 1.5rem;
+}
+
+/* Inputs */
+.form-group {
+  text-align: left;
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+  background: #ffffff;
+  font-size: 1rem;
+  outline: none;
+  color: #333;
+  transition: all 0.25s ease;
+}
+
+.form-group input:focus {
+  border-color: #333333;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
+}
+
+/* Login button */
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: 10px;
+  background: #1a1a1a;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.login-btn:hover {
+  transform: scale(1.03);
+  background: #333333;
+}
+
+/* Signup text */
+.signup-text {
+  margin-top: 1.5rem;
+  color: #666666;
+  font-size: 0.9rem;
+}
+
+.signup-text a {
+  color: #1a1a1a;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.signup-text a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .login-card {
+    width: 90%;
+    padding: 2rem;
+  }
+}

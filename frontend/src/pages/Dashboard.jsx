@@ -12,7 +12,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { FaTrash } from "react-icons/fa";  // ✅ added
+import { FaTrash } from "react-icons/fa";
+import "../styles/Dashboard.css";
 
 function Dashboard() {
   const [events, setEvents] = useState([]);
@@ -71,89 +72,84 @@ function Dashboard() {
     }
   };
 
-  if (loading) return <p style={{ padding: "2rem" }}>Loading events...</p>;
-  if (error) return <p style={{ color: "red", padding: "2rem" }}>{error}</p>;
+  if (loading) return (
+    <div className="dashboard-page">
+      <div className="dashboard-container">
+        <p className="loading-text">Loading events...</p>
+      </div>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="dashboard-page">
+      <div className="dashboard-container">
+        <p className="error-text">{error}</p>
+      </div>
+    </div>
+  );
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Your Events</h2>
+    <div className="dashboard-page">
+      <div className="dashboard-container">
+        <h2 className="dashboard-title">Your Events</h2>
 
-      <button
-        style={{
-          backgroundColor: "#007bff",
-          color: "white",
-          border: "none",
-          padding: "10px 16px",
-          borderRadius: "5px",
-          cursor: "pointer",
-          marginBottom: "20px",
-        }}
-        onClick={() => navigate("/add-event")}
-      >
-        ➕ Add New Event
-      </button>
+        <button
+          className="add-event-btn"
+          onClick={() => navigate("/add-event")}
+        >
+          ➕ Add New Event
+        </button>
 
-      {events.length === 0 ? (
-        <p>No events found.</p>
-      ) : (
-        <table border="1" cellPadding="8" style={{ borderCollapse: "collapse" }}>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Start</th>
-              <th>End</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {events.map((ev) => (
-              <tr key={ev.id}>
-                <td>{ev.title}</td>
-                <td>{new Date(ev.start_time).toLocaleString()}</td>
-                <td>{new Date(ev.end_time).toLocaleString()}</td>
-                <td>{ev.status}</td>
-                <td style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-                  {/* Toggle Swappable */}
-                  <button
-                    onClick={() => toggleSwappable(ev.id, ev.status)}
-                    style={{
-                      backgroundColor:
-                        ev.status === "BUSY" ? "#17a2b8" : "#ffc107",
-                      color: "white",
-                      border: "none",
-                      padding: "6px 10px",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {ev.status === "BUSY" ? "Make Swappable" : "Revert to Busy"}
-                  </button>
-
-                  {/* Delete with bin icon */}
-                  <button
-                    onClick={() => handleDelete(ev.id)}
-                    style={{
-                      backgroundColor: "#dc3545",
-                      color: "white",
-                      border: "none",
-                      padding: "6px 8px",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                    title="Delete Event"
-                  >
-                    <FaTrash size={14} />
-                  </button>
-                </td>
+        {events.length === 0 ? (
+          <div className="no-events">
+            <p>No events found. Create your first event to get started!</p>
+          </div>
+        ) : (
+          <table className="events-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+            </thead>
+            <tbody>
+              {events.map((ev) => (
+                <tr key={ev.id}>
+                  <td>{ev.title}</td>
+                  <td>{new Date(ev.start_time).toLocaleString()}</td>
+                  <td>{new Date(ev.end_time).toLocaleString()}</td>
+                  <td>
+                    <span className={`status-badge ${ev.status.toLowerCase()}`}>
+                      {ev.status}
+                    </span>
+                  </td>
+                  <td className="actions-cell">
+                    {/* Toggle Swappable */}
+                    <button
+                      onClick={() => toggleSwappable(ev.id, ev.status)}
+                      className={`toggle-btn ${ev.status === "BUSY" ? "swappable" : "busy"}`}
+                    >
+                      {ev.status === "BUSY" ? "Make Swappable" : "Revert to Busy"}
+                    </button>
+
+                    {/* Delete with bin icon */}
+                    <button
+                      onClick={() => handleDelete(ev.id)}
+                      className="delete-btn"
+                      title="Delete Event"
+                    >
+                      <FaTrash size={14} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 }

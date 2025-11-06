@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import "../styles/Signup.css";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -28,41 +29,58 @@ function Signup() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: "300px", margin: "50px auto" }}>
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSignup}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Sign Up</button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <p>
-        Already have an account?{" "}
-        <span
-          onClick={() => navigate("/")}
-          style={{ color: "blue", cursor: "pointer" }}
-        >
-          Login
-        </span>
-      </p>
+    <div className="signup-page">
+      <div className="signup-card">
+        <h2 className="signup-title">Join SlotSwapper 🚀</h2>
+        <p className="signup-subtitle">
+          Create your account to get started with <b>SlotSwapper</b>
+        </p>
+
+        <form onSubmit={handleSignup}>
+          <div className="form-group">
+            <label>Username</label>
+            <input
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button type="submit" className="signup-btn">
+            Sign Up
+          </button>
+        </form>
+
+        {error && <p style={{ color: "#ffb3b3", marginTop: "10px" }}>{error}</p>}
+
+        <p className="login-text">
+          Already have an account? <Link to="/">Login</Link>
+        </p>
+      </div>
     </div>
   );
 }

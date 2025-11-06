@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "../styles/Navbar.css";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -7,43 +8,34 @@ function Navbar() {
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
     navigate("/");
-     window.location.reload();
+    window.location.reload();
   };
 
   const isLoggedIn = !!localStorage.getItem("access");
 
   return (
-    <nav
-      style={{
-        background: "#282c34",
-        padding: "1rem",
-        color: "white",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
+    <nav className="navbar">
       <div>
         <span
-          style={{ fontWeight: "bold", fontSize: "1.2rem", cursor: "pointer" }}
+          className="navbar-brand"
           onClick={() => navigate("/dashboard")}
         >
           SlotSwapper
         </span>
       </div>
       {isLoggedIn && (
-        <div style={{ display: "flex", gap: "20px" }}>
-          <span style={{ cursor: "pointer" }} onClick={() => navigate("/dashboard")}>
+        <div className="navbar-menu">
+          <span className="navbar-item" onClick={() => navigate("/dashboard")}>
             Dashboard
           </span>
-          <span style={{ cursor: "pointer" }} onClick={() => navigate("/marketplace")}>
+          <span className="navbar-item" onClick={() => navigate("/marketplace")}>
             Marketplace
           </span>
-          <span style={{ cursor: "pointer" }} onClick={() => navigate("/requests")}>
+          <span className="navbar-item" onClick={() => navigate("/requests")}>
             Requests
           </span>
           <span
-            style={{ cursor: "pointer", color: "lightcoral" }}
+            className="navbar-logout"
             onClick={handleLogout}
           >
             Logout
