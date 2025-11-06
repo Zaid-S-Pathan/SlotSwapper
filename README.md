@@ -61,6 +61,32 @@ SlotSwapper is a collaborative time-management platform that enables users to ex
 - PostgreSQL (production)
 - SQLite (development)
 
+### Tech Stack
+
+Below is a concise breakdown of the main technologies used by the project.
+
+Backend
+
+| Technology | Version | Purpose |
+|---|---:|---|
+| Python | 3.11+ | Programming language |
+| Django | 5.2+ | Web framework and REST support |
+| Django REST Framework | 3.15+ | API toolkit |
+| djangorestframework-simplejwt | 5.x | JWT authentication |
+| PostgreSQL | 12+ | Production relational database |
+| psycopg (psycopg[binary]) | 3.x | PostgreSQL driver (binary wheel) |
+
+Frontend
+
+| Technology | Version | Purpose |
+|---|---:|---|
+| React | 18+ | UI library |
+| React Router DOM | 6+ | Client-side routing |
+| Axios | 1.x | HTTP client |
+| Vite | 4+ | Development/build tool |
+| CSS3 | - | Styling with modern features |
+
+
 ## 3. Installation
 
 ### Backend Setup
