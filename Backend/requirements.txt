@@ -2,7 +2,10 @@ Django==5.2
 djangorestframework==3.15.2
 djangorestframework-simplejwt==5.4.0
 django-cors-headers==4.6.0
-psycopg2-binary==2.9.9
+# Use psycopg (psycopg3) binary wheel which has prebuilt binaries for modern Python
+# This is preferred on deployment platforms (like Render) running newer Python (3.11/3.13)
+# and avoids compilation failures that psycopg2-binary can cause.
+psycopg[binary]
 python-decouple==3.8
 whitenoise==6.8.2
 gunicorn==23.0.0
