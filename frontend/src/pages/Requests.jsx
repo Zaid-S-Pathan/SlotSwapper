@@ -10,6 +10,8 @@
 // export default Requests;  
 import { useEffect, useState } from "react";
 import axios from "axios";
+import config from "../config";
+import "../styles/Requests.css";
 
 function Requests() {
   const [incoming, setIncoming] = useState([]);
@@ -23,7 +25,7 @@ function Requests() {
   const fetchRequests = async () => {
     try {
       setError(null);
-      const res = await axios.get("http://127.0.0.1:8000/api/swap-requests/", {
+      const res = await axios.get(`${config.API_URL}/api/swap-requests/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -56,7 +58,7 @@ function Requests() {
   const respondToRequest = async (id, accept) => {
     try {
       await axios.post(
-        `http://127.0.0.1:8000/api/swap-response/${id}/`,
+        `${config.API_URL}/api/swap-response/${id}/`,
         { accept },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -67,71 +69,106 @@ function Requests() {
     }
   };
 
-  if (loading) return <p style={{ padding: "2rem" }}>Loading requests...</p>;
-  if (error) return <p style={{ color: "red", padding: "2rem" }}>{error}</p>;
+  if (loading) return (
+    <div className="requests-page">
+      <div className="requests-container">
+        <p className="loading-text">Loading requests...</p>
+      </div>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="requests-page">
+      <div className="requests-container">
+        <p className="error-text">{error}</p>
+      </div>
+    </div>
+  );
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Incoming Swap Requests</h2>
-      {incoming.length === 0 ? (
-        <p>No incoming requests.</p>
-      ) : (
-        <table border="1" cellPadding="8" style={{ borderCollapse: "collapse" }}>
-          <thead>
-            <tr>
-              <th>Requester</th>
-              <th>Their Slot</th>
-              <th>Your Slot</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {incoming.map((req) => (
-              <tr key={req.id}>
-                <td>{req.requester}</td>
-                <td>{req.my_slot}</td>
-                <td>{req.their_slot}</td>
-                <td>{req.status}</td>
-                <td>
-                  <button onClick={() => respondToRequest(req.id, true)}>
-                    Accept
-                  </button>
-                  <button onClick={() => respondToRequest(req.id, false)}>
-                    Reject
-                  </button>
-                </td>
+    <div className="requests-page">
+      <div className="requests-container">
+        <h2 className="requests-section-title">Incoming Swap Requests</h2>
+        {incoming.length === 0 ? (
+          <div className="no-requests">
+            <p>No incoming requests at the moment.</p>
+          </div>
+        ) : (
+          <table className="requests-table">
+            <thead>
+              <tr>
+                <th>Requester</th>
+                <th>Their Slot</th>
+                <th>Your Slot</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+            </thead>
+            <tbody>
+              {incoming.map((req) => (
+                <tr key={req.id}>
+                  <td>{req.requester}</td>
+                  <td>{req.my_slot}</td>
+                  <td>{req.their_slot}</td>
+                  <td>
+                    <span className={`status-badge ${req.status.toLowerCase()}`}>
+                      {req.status}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="action-buttons">
+                      <button 
+                        className="accept-btn"
+                        onClick={() => respondToRequest(req.id, true)}
+                      >
+                        Accept
+                      </button>
+                      <button 
+                        className="reject-btn"
+                        onClick={() => respondToRequest(req.id, false)}
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
 
-      <h2 style={{ marginTop: "3rem" }}>Outgoing Swap Requests</h2>
-      {outgoing.length === 0 ? (
-        <p>No outgoing requests.</p>
-      ) : (
-        <table border="1" cellPadding="8" style={{ borderCollapse: "collapse" }}>
-          <thead>
-            <tr>
-              <th>Recipient</th>
-              <th>Your Slot</th>
-              <th>Their Slot</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {outgoing.map((req) => (
-              <tr key={req.id}>
-                <td>{req.recipient}</td>
-                <td>{req.my_slot}</td>
-                <td>{req.their_slot}</td>
-                <td>{req.status}</td>
+        <h2 className="requests-section-title">Outgoing Swap Requests</h2>
+        {outgoing.length === 0 ? (
+          <div className="no-requests">
+            <p>No outgoing requests at the moment.</p>
+          </div>
+        ) : (
+          <table className="requests-table">
+            <thead>
+              <tr>
+                <th>Recipient</th>
+                <th>Your Slot</th>
+                <th>Their Slot</th>
+                <th>Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+            </thead>
+            <tbody>
+              {outgoing.map((req) => (
+                <tr key={req.id}>
+                  <td>{req.recipient}</td>
+                  <td>{req.my_slot}</td>
+                  <td>{req.their_slot}</td>
+                  <td>
+                    <span className={`status-badge ${req.status.toLowerCase()}`}>
+                      {req.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 }

@@ -324,3 +324,29 @@ class HelloView(APIView):
 
     def get(self, request):
         return Response({"message": f"Hello {request.user.username}, your token works!"})
+
+# Debug view to test login
+class DebugLoginView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
+        
+        print(f"Login attempt - Username: {username}, Password: {password}")
+        
+        from django.contrib.auth import authenticate
+        user = authenticate(username=username, password=password)
+        
+        if user:
+            print(f"Authentication successful for user: {user.username}")
+            from rest_framework_simplejwt.tokens import RefreshToken
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                "message": "Login successful",
+                "access": str(refresh.access_token),
+                "refresh": str(refresh),
+            })
+        else:
+            print(f"Authentication failed for username: {username}")
+            return Response({"error": "Invalid credentials"}, status=401)

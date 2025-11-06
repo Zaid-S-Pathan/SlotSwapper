@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import config from "../config";
+import "../styles/AddEvent.css";
 
 function AddEvent() {
   const [title, setTitle] = useState("");
@@ -14,7 +16,7 @@ function AddEvent() {
     e.preventDefault();
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/events/",
+        `${config.API_URL}/api/events/`,
         {
           title,
           start_time: startTime,
@@ -32,84 +34,69 @@ function AddEvent() {
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Add New Event</h2>
-      <form onSubmit={handleSubmit} style={{ maxWidth: "400px" }}>
-        <div style={{ marginBottom: "10px" }}>
-          <label>Title:</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-          />
-        </div>
+    <div className="add-event-page">
+      <div className="add-event-container">
+        <h2 className="add-event-title">Add New Event</h2>
+        
+        <form onSubmit={handleSubmit} className="add-event-form">
+          <div className="form-group">
+            <label>Title:</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              placeholder="Enter event title"
+            />
+          </div>
 
-        <div style={{ marginBottom: "10px" }}>
-          <label>Start Time:</label>
-          <input
-            type="datetime-local"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-            required
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-          />
-        </div>
+          <div className="form-group">
+            <label>Start Time:</label>
+            <input
+              type="datetime-local"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+              required
+            />
+          </div>
 
-        <div style={{ marginBottom: "10px" }}>
-          <label>End Time:</label>
-          <input
-            type="datetime-local"
-            value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
-            required
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-          />
-        </div>
+          <div className="form-group">
+            <label>End Time:</label>
+            <input
+              type="datetime-local"
+              value={endTime}
+              onChange={(e) => setEndTime(e.target.value)}
+              required
+            />
+          </div>
 
-        <div style={{ marginBottom: "10px" }}>
-          <label>Status:</label>
-          <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-          >
-            <option value="BUSY">BUSY</option>
-            <option value="SWAPPABLE">SWAPPABLE</option>
-          </select>
-        </div>
+          <div className="form-group">
+            <label>Status:</label>
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="status-select"
+            >
+              <option value="BUSY">BUSY</option>
+              <option value="SWAPPABLE">SWAPPABLE</option>
+            </select>
+          </div>
 
-        <button
-          type="submit"
-          style={{
-            backgroundColor: "#28a745",
-            color: "white",
-            border: "none",
-            padding: "10px 16px",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-        >
-          Add Event
-        </button>
+          <div className="button-group">
+            <button type="submit" className="submit-btn">
+              Add Event
+            </button>
 
-        <button
-          type="button"
-          onClick={() => navigate("/dashboard")}
-          style={{
-            backgroundColor: "#6c757d",
-            color: "white",
-            border: "none",
-            padding: "10px 16px",
-            borderRadius: "5px",
-            cursor: "pointer",
-            marginLeft: "10px",
-          }}
-        >
-          Cancel
-        </button>
-      </form>
+            <button
+              type="button"
+              onClick={() => navigate("/dashboard")}
+              className="cancel-btn"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

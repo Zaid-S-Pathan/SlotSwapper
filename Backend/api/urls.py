@@ -5,13 +5,14 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from .views import SwappableSlotsView, SwapRequestCreateView, SwapResponseView,SwapRequestsView, RegisterView,DeleteUserView
+from .views import SwappableSlotsView, SwapRequestCreateView, SwapResponseView,SwapRequestsView, RegisterView,DeleteUserView, DebugLoginView
 
 
 urlpatterns = [
     # JWT Auth endpoints
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('debug-login/', DebugLoginView.as_view(), name='debug-login'),
 
  # Event CRUD
     path('events/', EventListCreateView.as_view(), name='events-list-create'),

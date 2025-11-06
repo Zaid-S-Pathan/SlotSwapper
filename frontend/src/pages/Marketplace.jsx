@@ -10,6 +10,8 @@
 // export default Marketplace;  // 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import config from "../config";
+import "../styles/Marketplace.css";
 
 function Marketplace() {
   const [swappableSlots, setSwappableSlots] = useState([]);
@@ -24,7 +26,7 @@ function Marketplace() {
   useEffect(() => {
     const fetchSlots = async () => {
       try {
-        const res = await axios.get("http://127.0.0.1:8000/api/swappable-slots/", {
+        const res = await axios.get(`${config.API_URL}/api/swappable-slots/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setSwappableSlots(res.data);
@@ -37,7 +39,7 @@ function Marketplace() {
     // Fetch user's own swappable events
     const fetchMySlots = async () => {
       try {
-        const res = await axios.get("http://127.0.0.1:8000/api/events/", {
+        const res = await axios.get(`${config.API_URL}/api/events/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const mine = res.data.filter((ev) => ev.status === "SWAPPABLE");
@@ -60,7 +62,7 @@ function Marketplace() {
 });
 
       await axios.post(
-        "http://127.0.0.1:8000/api/swap-request/",
+        `${config.API_URL}/api/swap-request/`,
         {
           my_slot_id: mySlotId,
           their_slot_id: selectedTarget,
@@ -78,85 +80,82 @@ function Marketplace() {
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Swappable Slots (Other Users)</h2>
+    <div className="marketplace-page">
+      <div className="marketplace-container">
+        <h2 className="marketplace-title">Swappable Slots (Other Users)</h2>
 
-      {swappableSlots.length === 0 ? (
-        <p>No available slots from other users.</p>
-      ) : (
-        <table border="1" cellPadding="8" style={{ borderCollapse: "collapse" }}>
-          <thead>
-            <tr>
-              <th>Owner</th>
-              <th>Title</th>
-              <th>Start</th>
-              <th>End</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {swappableSlots.map((slot) => (
-              <tr key={slot.id}>
-                <td>{slot.owner}</td>
-                <td>{slot.title}</td>
-                <td>{new Date(slot.start_time).toLocaleString()}</td>
-                <td>{new Date(slot.end_time).toLocaleString()}</td>
-                <td>
-                  <button
-                    onClick={() => {
-                      setSelectedTarget(slot.id);
-                      setShowOfferModal(true);
-                    }}
-                  >
-                    Request Swap
-                  </button>
-                </td>
+        {swappableSlots.length === 0 ? (
+          <div className="no-slots">
+            <p>No available slots from other users at the moment.</p>
+          </div>
+        ) : (
+          <table className="marketplace-table">
+            <thead>
+              <tr>
+                <th>Owner</th>
+                <th>Title</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-
-      {/* Simple modal to choose your offer */}
-      {showOfferModal && (
-        <div
-          style={{
-            background: "rgba(0,0,0,0.5)",
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div style={{ background: "white", color: "black",padding: "20px", borderRadius: "8px" }}>
-            <h3>Select one of your swappable slots to offer:</h3>
-            {mySwappableSlots.length === 0 ? (
-              <p>You have no swappable slots!</p>
-            ) : (
-              <ul>
-                {mySwappableSlots.map((mine) => (
-                  <li key={mine.id} style={{ marginBottom: "10px" }}>
-                    {mine.title} — {new Date(mine.start_time).toLocaleString()}
+            </thead>
+            <tbody>
+              {swappableSlots.map((slot) => (
+                <tr key={slot.id}>
+                  <td>{slot.owner}</td>
+                  <td>{slot.title}</td>
+                  <td>{new Date(slot.start_time).toLocaleString()}</td>
+                  <td>{new Date(slot.end_time).toLocaleString()}</td>
+                  <td>
                     <button
-                      style={{ marginLeft: "10px" }}
+                      className="request-swap-btn"
                       onClick={() => {
-                        sendSwapRequest(mine.id);
+                        setSelectedTarget(slot.id);
+                        setShowOfferModal(true);
                       }}
                     >
-                      Offer This
+                      Request Swap
                     </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <button onClick={() => setShowOfferModal(false)}>Cancel</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {/* Modal to choose your offer */}
+        {showOfferModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h3 className="modal-title">Select one of your swappable slots to offer:</h3>
+              {mySwappableSlots.length === 0 ? (
+                <p>You have no swappable slots!</p>
+              ) : (
+                <ul className="slot-list">
+                  {mySwappableSlots.map((mine) => (
+                    <li key={mine.id} className="slot-item">
+                      <span>
+                        {mine.title} — {new Date(mine.start_time).toLocaleString()}
+                      </span>
+                      <button
+                        className="offer-btn"
+                        onClick={() => {
+                          sendSwapRequest(mine.id);
+                        }}
+                      >
+                        Offer This
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <button className="cancel-btn" onClick={() => setShowOfferModal(false)}>
+                Cancel
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

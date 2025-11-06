@@ -1,5 +1,5 @@
-/* Dashboard page styling */
-.dashboard-page {
+/* Marketplace page styling */
+.marketplace-page {
   position: fixed;
   top: 0;
   left: 0;
@@ -20,7 +20,7 @@
 }
 
 /* Hide scrollbar for webkit browsers */
-.dashboard-page::-webkit-scrollbar {
+.marketplace-page::-webkit-scrollbar {
   display: none;
 }
 
@@ -32,8 +32,8 @@
 }
 
 /* Main container */
-.dashboard-container {
-  max-width: 1200px;
+.marketplace-container {
+  max-width: 1400px;
   width: 90%;
   margin: 2rem auto;
   padding: 3rem;
@@ -56,36 +56,12 @@
 }
 
 /* Header */
-.dashboard-title {
+.marketplace-title {
   font-size: 2rem;
   font-weight: 700;
   color: #1a1a1a;
   margin-bottom: 1.5rem;
   text-align: center;
-}
-
-/* Add event button */
-.add-event-btn {
-  background: #1a1a1a;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 2rem;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  align-self: center;
-}
-
-.add-event-btn:hover {
-  transform: scale(1.03);
-  background: #333333;
 }
 
 /* Loading and error states */
@@ -104,8 +80,8 @@
   font-weight: 500;
 }
 
-/* No events message */
-.no-events {
+/* No slots message */
+.no-slots {
   text-align: center;
   color: #666666;
   font-size: 1.1rem;
@@ -115,11 +91,11 @@
   border: 2px dashed #e0e0e0;
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 auto 2rem auto;
 }
 
 /* Table styling */
-.events-table {
+.marketplace-table {
   width: 100%;
   max-width: 1200px;
   border-collapse: collapse;
@@ -127,10 +103,10 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
+  margin: 0 auto 2rem auto;
 }
 
-.events-table th {
+.marketplace-table th {
   background: #1a1a1a;
   color: white;
   padding: 15px 12px;
@@ -139,107 +115,141 @@
   font-size: 0.95rem;
 }
 
-.events-table td {
+.marketplace-table td {
   padding: 12px;
   border-bottom: 1px solid #e0e0e0;
   color: #333333;
 }
 
-.events-table tr:hover {
+.marketplace-table tr:hover {
   background: #f8f9fa;
 }
 
-.events-table tr:last-child td {
+.marketplace-table tr:last-child td {
   border-bottom: none;
 }
 
-/* Action buttons */
-.actions-cell {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.toggle-btn {
+/* Request swap button */
+.request-swap-btn {
+  background: #1a1a1a;
+  color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 8px 16px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 500;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.toggle-btn:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
-}
-
-.toggle-btn.swappable {
-  background: #17a2b8;
-  color: white;
-}
-
-.toggle-btn.busy {
-  background: #ffc107;
-  color: #1a1a1a;
-}
-
-.delete-btn {
-  background: #dc3545;
-  color: white;
-  border: none;
-  padding: 8px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.delete-btn:hover {
+.request-swap-btn:hover {
   transform: scale(1.05);
-  background: #c82333;
+  background: #333333;
 }
 
-/* Status badges */
-.status-badge {
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.8rem;
+/* Modal styling */
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: white;
+  color: #1a1a1a;
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.9) translateY(-20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-title {
+  font-size: 1.3rem;
   font-weight: 600;
-  text-transform: uppercase;
+  margin-bottom: 1rem;
+  color: #1a1a1a;
 }
 
-.status-badge.busy {
-  background: #fff3cd;
-  color: #856404;
+.slot-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
 }
 
-.status-badge.swappable {
-  background: #d1ecf1;
-  color: #0c5460;
+.slot-item {
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.offer-btn {
+  background: #17a2b8;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.2s ease;
+}
+
+.offer-btn:hover {
+  background: #138496;
+}
+
+.cancel-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+  margin-top: 1rem;
+}
+
+.cancel-btn:hover {
+  background: #5a6268;
 }
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-  .dashboard-container {
+  .marketplace-container {
     margin: 1rem;
     padding: 1.5rem;
   }
   
-  .events-table {
+  .marketplace-table {
     font-size: 0.9rem;
   }
   
-  .events-table th,
-  .events-table td {
+  .marketplace-table th,
+  .marketplace-table td {
     padding: 8px;
   }
   
-  .actions-cell {
-    flex-direction: column;
-    gap: 5px;
+  .modal-content {
+    padding: 1.5rem;
   }
 }

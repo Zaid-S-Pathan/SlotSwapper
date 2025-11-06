@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
+import config from "../config";
 import "../styles/Dashboard.css";
 
 function Dashboard() {
@@ -24,7 +25,7 @@ function Dashboard() {
 
   const fetchEvents = async () => {
     try {
-      const res = await axios.get("http://127.0.0.1:8000/api/events/", {
+      const res = await axios.get(`${config.API_URL}/api/events/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEvents(res.data);
@@ -43,7 +44,7 @@ function Dashboard() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this event?")) return;
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/events/${id}/`, {
+      await axios.delete(`${config.API_URL}/api/events/${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEvents(events.filter((ev) => ev.id !== id));
@@ -57,7 +58,7 @@ function Dashboard() {
     const newStatus = currentStatus === "BUSY" ? "SWAPPABLE" : "BUSY";
     try {
       await axios.patch(
-        `http://127.0.0.1:8000/api/events/${id}/`,
+        `${config.API_URL}/api/events/${id}/`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
