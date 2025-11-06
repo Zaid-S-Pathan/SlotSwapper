@@ -117,9 +117,15 @@ DATABASES = {
 
 # Override with PostgreSQL for production if DATABASE_URL is provided
 DATABASE_URL = config('DATABASE_URL', default=None)
-if DATABASE_URL and USE_DECOUPLE:
-    import dj_database_url
-    DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
+if DATABASE_URL:
+    try:
+        import dj_database_url
+        DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
+        print(f"Using PostgreSQL database: {DATABASE_URL[:50]}...")
+    except ImportError:
+        print("dj_database_url not available, using SQLite")
+else:
+    print("No DATABASE_URL found, using SQLite")
 
 
 # Password validation

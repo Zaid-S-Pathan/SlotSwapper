@@ -350,3 +350,37 @@ class DebugLoginView(APIView):
         else:
             print(f"Authentication failed for username: {username}")
             return Response({"error": "Invalid credentials"}, status=401)
+
+# Database test view
+class DatabaseTestView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        from django.db import connection
+        from django.contrib.auth.models import User
+        
+        try:
+            # Test database connection
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT 1")
+                db_status = "Connected"
+            
+            # Count users
+            user_count = User.objects.count()
+            
+            # Get database info
+            db_name = connection.settings_dict.get('NAME', 'Unknown')
+            db_engine = connection.settings_dict.get('ENGINE', 'Unknown')
+            
+            return Response({
+                "database_status": db_status,
+                "database_engine": db_engine,
+                "database_name": db_name,
+                "user_count": user_count,
+                "users": list(User.objects.values_list('username', flat=True))
+            })
+        except Exception as e:
+            return Response({
+                "database_status": "Error",
+                "error": str(e)
+            }, status=500)

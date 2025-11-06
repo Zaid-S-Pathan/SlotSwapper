@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from .views import SwappableSlotsView, SwapRequestCreateView, SwapResponseView,SwapRequestsView, RegisterView,DeleteUserView, DebugLoginView
+from .views import SwappableSlotsView, SwapRequestCreateView, SwapResponseView,SwapRequestsView, RegisterView,DeleteUserView, DebugLoginView, DatabaseTestView
 
 
 urlpatterns = [
@@ -13,6 +13,7 @@ urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('debug-login/', DebugLoginView.as_view(), name='debug-login'),
+    path('db-test/', DatabaseTestView.as_view(), name='db-test'),
 
  # Event CRUD
     path('events/', EventListCreateView.as_view(), name='events-list-create'),
