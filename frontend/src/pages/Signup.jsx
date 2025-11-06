@@ -25,7 +25,11 @@ function Signup() {
       alert("Registration successful!");
       navigate("/dashboard");
     } catch (err) {
-      setError(err.response?.data?.error || "Registration failed");
+      // Debug: show full response body so we can see server validation or host errors (JSON or HTML)
+      console.error('Signup error', err.response || err);
+      const respData = err.response?.data;
+      // If backend returned JSON with an `error` field, show it; otherwise stringify the body/message
+      setError(respData?.error || JSON.stringify(respData) || err.message || "Registration failed");
     }
   };
 
