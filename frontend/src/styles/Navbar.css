@@ -1,35 +1,65 @@
 /* Navbar styling */
 .navbar {
-  background: rgba(26, 26, 26, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1rem 2rem;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 0.5rem 2rem;
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  height: 70px;
+  height: 50px;
   transition: all 0.3s ease;
 }
 
 .navbar-brand {
   font-weight: bold;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease;
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.5),
+    0 0 20px rgba(255, 255, 255, 0.3),
+    0 0 30px rgba(255, 255, 255, 0.1);
+  position: relative;
 }
 
 .navbar-brand:hover {
   color: #ffffff;
-  transform: scale(1.05);
+  transform: scale(1.08);
+  text-shadow: 
+    0 0 15px rgba(138, 43, 226, 0.8),
+    0 0 30px rgba(138, 43, 226, 0.6),
+    0 0 45px rgba(138, 43, 226, 0.4),
+    0 0 60px rgba(138, 43, 226, 0.2);
+}
+
+.navbar-brand::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: radial-gradient(circle, rgba(138, 43, 226, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+
+.navbar-brand:hover::before {
+  opacity: 1;
 }
 
 .navbar-menu {
@@ -40,69 +70,140 @@
 
 .navbar-item {
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: 0.3rem 0.8rem;
   border-radius: 8px;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
   font-weight: 500;
+  font-size: 0.9rem;
   position: relative;
   backdrop-filter: blur(10px);
 }
 
 .navbar-item:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(138, 43, 226, 0.2);
   color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 25px rgba(138, 43, 226, 0.3),
+    0 0 20px rgba(138, 43, 226, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
 
 .navbar-item::before {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -2px;
   left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #ffffff, transparent);
-  transition: all 0.3s ease;
+  background: linear-gradient(90deg, transparent, rgba(138, 43, 226, 0.8), transparent);
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.6);
+  transition: all 0.4s ease;
   transform: translateX(-50%);
+  border-radius: 2px;
 }
 
 .navbar-item:hover::before {
-  width: 80%;
+  width: 90%;
+}
+
+.navbar-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(138, 43, 226, 0.1) 0%, transparent 70%);
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+
+.navbar-item:hover::after {
+  opacity: 1;
+}
+
+/* Active state for current page */
+.navbar-item.active {
+  background: rgba(138, 43, 226, 0.3);
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(138, 43, 226, 0.9);
+  box-shadow: 
+    0 4px 15px rgba(138, 43, 226, 0.4),
+    0 0 25px rgba(138, 43, 226, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.navbar-item.active::before {
+  width: 90%;
+  background: linear-gradient(90deg, transparent, rgba(138, 43, 226, 1), transparent);
+  box-shadow: 0 0 15px rgba(138, 43, 226, 0.8);
+}
+
+.navbar-item.active::after {
+  opacity: 0.8;
 }
 
 .navbar-logout {
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: 0.3rem 0.8rem;
   border-radius: 8px;
   color: #ff6b6b;
   font-weight: 500;
-  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  transition: all 0.4s ease;
   position: relative;
   backdrop-filter: blur(10px);
 }
 
 .navbar-logout:hover {
-  background: rgba(255, 107, 107, 0.15);
-  color: #ff5252;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+  background: rgba(255, 20, 147, 0.2);
+  color: #ff1493;
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 25px rgba(255, 20, 147, 0.4),
+    0 0 20px rgba(255, 20, 147, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  text-shadow: 0 0 10px rgba(255, 20, 147, 0.8);
 }
 
 .navbar-logout::before {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -2px;
   left: 50%;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #ff6b6b, transparent);
-  transition: all 0.3s ease;
+  background: linear-gradient(90deg, transparent, rgba(255, 20, 147, 0.8), transparent);
+  box-shadow: 0 0 10px rgba(255, 20, 147, 0.6);
+  transition: all 0.4s ease;
   transform: translateX(-50%);
+  border-radius: 2px;
 }
 
 .navbar-logout:hover::before {
-  width: 80%;
+  width: 90%;
+}
+
+.navbar-logout::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(255, 20, 147, 0.1) 0%, transparent 70%);
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+
+.navbar-logout:hover::after {
+  opacity: 1;
 }
 
 /* Mobile responsiveness */

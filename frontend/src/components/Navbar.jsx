@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Navbar.css";
 
 function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     localStorage.removeItem("access");
@@ -12,6 +13,11 @@ function Navbar() {
   };
 
   const isLoggedIn = !!localStorage.getItem("access");
+
+  // Function to check if current path matches the nav item
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
 
   return (
     <nav className="navbar">
@@ -25,13 +31,22 @@ function Navbar() {
       </div>
       {isLoggedIn && (
         <div className="navbar-menu">
-          <span className="navbar-item" onClick={() => navigate("/dashboard")}>
+          <span 
+            className={`navbar-item ${isActive("/dashboard") ? "active" : ""}`}
+            onClick={() => navigate("/dashboard")}
+          >
             Dashboard
           </span>
-          <span className="navbar-item" onClick={() => navigate("/marketplace")}>
+          <span 
+            className={`navbar-item ${isActive("/marketplace") ? "active" : ""}`}
+            onClick={() => navigate("/marketplace")}
+          >
             Marketplace
           </span>
-          <span className="navbar-item" onClick={() => navigate("/requests")}>
+          <span 
+            className={`navbar-item ${isActive("/requests") ? "active" : ""}`}
+            onClick={() => navigate("/requests")}
+          >
             Requests
           </span>
           <span
