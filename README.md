@@ -4,22 +4,36 @@ A web application that helps users manage and swap time slots for events. Built 
 
 ## Table of Contents
 
-1. General Information
-2. Requirements
-3. Installation
-4. Usage
-5. API Endpoints
-6. Project Structure
-7. Deployment
-8. Contact
+1. [General Information](#1-general-information)
+2. [Requirements](#2-requirements)
+3. [Installation](#3-installation)
+4. [Usage](#4-usage)
+5. [API Endpoints](#5-api-endpoints)
+6. [Project Structure](#6-project-structure)
+7. [Deployment](#7-deployment)
+8. [Contact](#8-contact)
 
 ## 1. General Information
 
-SlotSwapper is a web-based platform that enables users to:
-- Create and manage time slots for events
-- List slots available for swapping
-- Request and respond to slot swap requests
-- Manage a personal dashboard of events
+🎯 Project Overview
+
+SlotSwapper is a collaborative time-management platform that enables users to exchange their scheduled time slots effortlessly. Instead of rescheduling manually, users can mark specific calendar events as available for swap, explore others’ swappable slots, and seamlessly trade times that better fit their day — all within a few clicks.
+
+💡 How It Works
+
+- **Mark Availability** – A user flags one of their events (for example, “Client Review” from 10:00–11:00 AM Tuesday) as Swappable.
+- **Discover Matches** – The user browses a shared marketplace displaying other users’ available swappable slots.
+- **Request Swap** – They find a suitable slot (e.g., another user’s Focus Session on Wednesday 2:00–3:00 PM) and send a swap request.
+- **Accept or Decline** – The recipient receives a notification and can accept or reject the request.
+- **Automatic Update** – Upon acceptance, both users’ schedules are instantly updated with the new event times — no confusion, no overlap.
+
+🚀 Why SlotSwapper
+
+- Eliminates the hassle of rescheduling through back-and-forth messaging.
+- Keeps calendars synchronized automatically.
+- Encourages flexible, cooperative scheduling among teams or peers.
+- Designed for professionals, students, and anyone managing shared time slots.
+
 
 ### Features
 - User authentication with JWT tokens
@@ -29,7 +43,6 @@ SlotSwapper is a web-based platform that enables users to:
 - Real-time status updates for swap requests
 - Responsive design for desktop and mobile
 
-[Screenshot: Homepage/Dashboard overview]
 
 ## 2. Requirements
 
