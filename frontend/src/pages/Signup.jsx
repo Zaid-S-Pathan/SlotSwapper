@@ -9,10 +9,12 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await axios.post(`${config.API_URL}/api/register/`, {
         username,
@@ -30,6 +32,8 @@ function Signup() {
       const respData = err.response?.data;
       // If backend returned JSON with an `error` field, show it; otherwise stringify the body/message
       setError(respData?.error || JSON.stringify(respData) || err.message || "Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,8 +79,14 @@ function Signup() {
             />
           </div>
 
-          <button type="submit" className="signup-btn">
-            Sign Up
+          <button type="submit" className="signup-btn" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="btn-spinner" aria-hidden="true" /> Signing up...
+              </>
+            ) : (
+              "Sign Up"
+            )}
           </button>
         </form>
 

@@ -8,10 +8,12 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await axios.post(`${config.API_URL}/api/token/`, {
         username,
@@ -23,6 +25,8 @@ function Login() {
       window.location.reload();
     } catch (err) {
       setError("Invalid username or password");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,8 +61,14 @@ function Login() {
             />
           </div>
 
-          <button type="submit" className="login-btn">
-            Login
+          <button type="submit" className="login-btn" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="btn-spinner" aria-hidden="true" /> Logging in...
+              </>
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
 

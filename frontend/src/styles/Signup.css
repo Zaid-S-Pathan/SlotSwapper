@@ -107,6 +107,30 @@
   background: #333333;
 }
 
+/* Disabled button state */
+.signup-btn[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Small spinner inside buttons */
+.btn-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* Login text */
 .login-text {
   margin-top: 1.5rem;
