@@ -9,6 +9,7 @@ A web application that helps users manage and swap time slots for events. Built 
    </a>
 </p>
 The app might take some time to login or sign up as render hybernates if not used for more than 15 minutes 
+
 ## Table of Contents
 
 1. [General Information](#1-general-information)
